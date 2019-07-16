@@ -1,4 +1,5 @@
 ﻿using EvernoteClone.Abstraction;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace EvernoteClone.Model
     {
         private int id;
 
+        [PrimaryKey, AutoIncrement]
         public int Id
         {
             get { return id; }
@@ -18,7 +20,7 @@ namespace EvernoteClone.Model
         }
 
         private int userId;
-
+        [Indexed]
         public int UserId
         {
             get { return userId; }
