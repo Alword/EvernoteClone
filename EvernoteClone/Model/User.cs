@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EvernoteClone.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace EvernoteClone.Model
 {
-    public class User
+    public class User : PropertyChangedBase
     {
         private int  id;
 
         public int Id
         {
             get { return id; }
-            set { id = value; }
+            set { id = value; OnPropertyChanged(); }
         }
 
         private string name;
@@ -21,7 +22,7 @@ namespace EvernoteClone.Model
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            set { name = value; OnPropertyChanged(); }
         }
 
         private string lastName;
@@ -29,7 +30,7 @@ namespace EvernoteClone.Model
         public string LastName
         {
             get { return lastName; }
-            set { lastName = value; }
+            set { lastName = value; OnPropertyChanged(); }
         }
 
 
@@ -38,7 +39,7 @@ namespace EvernoteClone.Model
         public string UserNameme
         {
             get { return username; }
-            set { username = value; }
+            set { username = value; OnPropertyChanged(); }
         }
 
         private string email;
@@ -46,7 +47,7 @@ namespace EvernoteClone.Model
         public string Email
         {
             get { return email; }
-            set { email = value; }
+            set { email = value; OnPropertyChanged(); }
         }
 
         private string password;
@@ -54,7 +55,7 @@ namespace EvernoteClone.Model
         public string Password
         {
             get { return password; }
-            set { password = value; }
+            set { password = value; OnPropertyChanged(); }
         }
 
     }
