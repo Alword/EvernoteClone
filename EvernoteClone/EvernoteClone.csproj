@@ -71,6 +71,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\Commands\ExitCommand.cs" />
     <Compile Include="ViewModel\Commands\LoginCommand.cs" />
     <Compile Include="ViewModel\Commands\NewNotebookCommand.cs" />
     <Compile Include="ViewModel\Commands\NewNoteCommand.cs" />

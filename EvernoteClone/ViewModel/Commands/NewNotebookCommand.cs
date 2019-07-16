@@ -25,7 +25,7 @@ namespace EvernoteClone.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            // TODO: Create new notebook
+            VM.CreateNewNotebook();
         }
     }
 }
