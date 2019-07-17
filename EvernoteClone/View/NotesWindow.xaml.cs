@@ -15,6 +15,7 @@ using System.Speech;
 using System.Speech.Recognition;
 using System.Threading;
 using System.Globalization;
+using System.Windows.Controls.Primitives;
 
 namespace EvernoteClone.View
 {
@@ -43,22 +44,15 @@ namespace EvernoteClone.View
 
         private void BoldButton_Click(object sender, RoutedEventArgs e)
         {
-            contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
+            bool isCheked = (sender as ToggleButton).IsChecked ?? false;
+            FontWeight weight = isCheked ? FontWeights.Bold : FontWeights.Normal;
+            contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, weight);
         }
 
-        bool isRecognizing = false;
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ContentRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (isRecognizing)
-            {
-                recognitionEngine.RecognizeAsyncStop();
-            }
-            else
-            {
-                recognitionEngine.RecognizeAsync(RecognizeMode.Multiple);
-            }
-            isRecognizing = !isRecognizing;
-            string textRange = new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd).Text;
+            var selectedState = contentRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
+            boldButton.IsChecked = (selectedState != DependencyProperty.UnsetValue) && selectedState.Equals(FontWeights.Bold);
         }
     }
 }
