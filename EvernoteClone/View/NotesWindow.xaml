@@ -23,6 +23,11 @@
                           Command="{Binding ExitCommand}"/>
             </MenuItem>
         </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusTextBlock"/>
+            </StatusBarItem>
+        </StatusBar>
         <ListView Width="140" 
                   DockPanel.Dock="Left"
                   SelectedItem="{Binding SelectedNotebook, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -44,11 +49,19 @@
         </ListView>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Content="Speech"/>
+                <Button Content="Speech" Click="Button_Click"/>
+                <Button x:Name="boldButton"
+                        Click="BoldButton_Click">
+                    
+                <TextBlock VerticalAlignment="Center" 
+                           Text="B" 
+                           FontWeight="Bold"/>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid>
-            <RichTextBox x:Name="content" />
+            <RichTextBox x:Name="contentRichTextBox" 
+                         TextChanged="Content_TextChanged"/>
         </Grid>
     </DockPanel>
 </Window>
