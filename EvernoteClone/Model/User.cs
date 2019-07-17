@@ -39,7 +39,7 @@ namespace EvernoteClone.Model
 
         private string username;
 
-        public string UserNameme
+        public string Username
         {
             get { return username; }
             set { username = value; OnPropertyChanged(); }

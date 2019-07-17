@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EvernoteClone.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,12 +21,14 @@ namespace EvernoteClone.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            throw new NotImplementedException();
+            User user = parameter as User;
+            
+            return !(user.Equals(null) || string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Password));
         }
 
         public void Execute(object parameter)
         {
-            // TODO: Login functionality
+            VM.Login();
         }
     }
 }

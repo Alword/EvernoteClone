@@ -26,5 +26,28 @@ namespace EvernoteClone.ViewModel
             RegisterCommand = new RegisterCommand(this);
             LoginCommand = new LoginCommand(this);
         }
+
+        public void Login()
+        {
+            using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(DatabaseHelper.dbFile))
+            {
+                conn.CreateTable<User>();
+                User user = conn.Table<User>().Where(u => u.Username == User.Username).FirstOrDefault();
+
+                if (user.Password == User.Password)
+                {
+                    // TODO: Login
+                }
+            }
+        }
+
+        public void Register()
+        {
+            var result = DatabaseHelper.Insert(User);
+            if (result)
+            {
+                // TODO: establish server
+            }
+        }
     }
 }

@@ -23,5 +23,17 @@ namespace EvernoteClone.View
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            registerStackPanel.Visibility = Visibility.Collapsed;
+            loginStackPanel.Visibility = Visibility.Visible;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            registerStackPanel.Visibility = Visibility.Visible; 
+            loginStackPanel.Visibility = Visibility.Collapsed; ;
+        }
     }
 }
