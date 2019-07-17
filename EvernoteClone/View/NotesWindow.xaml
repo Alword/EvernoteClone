@@ -50,18 +50,37 @@
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
                 <ToggleButton x:Name="boldButton"
-                        Click="BoldButton_Click">
-                    
-                <TextBlock VerticalAlignment="Center" 
-                           Text="B" 
-                           FontWeight="Bold"/>
+                        Click="boldButton_Click">
+                    <TextBlock Text="B"
+                               FontWeight="Bold"/>
                 </ToggleButton>
+                <ToggleButton x:Name="italicButton"
+                              Click="italicButton_Click">
+                    <TextBlock Text="I"
+                               FontStyle="Italic"/>
+                </ToggleButton>
+                <ToggleButton x:Name="underlineButton"
+                              Click="underlineButton_Click">
+                    <TextBlock Text="U"
+                               TextDecorations="Underline"/>
+                </ToggleButton>
+                <ComboBox x:Name="fontFamilyComboBox"
+                          Width="100"
+                          SelectionChanged="fontFamilyComboBox_SelectionChanged"/>
+                <ComboBox x:Name="fontSizeComboBox"
+                          Width="50"
+                          IsEditable="True"
+                          TextBoxBase.TextChanged="fontSizeComboBox_TextChanged"/>
             </ToolBar>
         </ToolBarTray>
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="277*"/>
+            </Grid.ColumnDefinitions>
             <RichTextBox x:Name="contentRichTextBox" 
-                         SelectionChanged="ContentRichTextBox_SelectionChanged"
-                         TextChanged="Content_TextChanged"/>
+                         SelectionChanged="contentRichTextBox_SelectionChanged"
+                         TextChanged="contentRichTextBox_TextChanged" Grid.ColumnSpan="2"/>
         </Grid>
     </DockPanel>
 </Window>
