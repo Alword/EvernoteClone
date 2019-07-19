@@ -16,6 +16,8 @@ using System.Speech.Recognition;
 using System.Threading;
 using System.Globalization;
 using System.Windows.Controls.Primitives;
+using EvernoteClone.ViewModel;
+using System.IO;
 
 namespace EvernoteClone.View
 {
@@ -24,15 +26,33 @@ namespace EvernoteClone.View
     /// </summary>
     public partial class NotesWindow : Window
     {
+        private NotesVM viewModel { get; set; }
+
         public NotesWindow()
         {
             InitializeComponent();
-
+            viewModel = new NotesVM();
+            container.DataContext = viewModel;
+            viewModel.SelectedNoteChanged += Notes_SelectedNoteChanged;
             var fontFamilies = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
             fontFamilyComboBox.ItemsSource = fontFamilies;
 
             List<double> fontSizes = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 28, 48, 72 };
             fontSizeComboBox.ItemsSource = fontSizes;
+        }
+
+        private void Notes_SelectedNoteChanged(object sender, EventArgs e)
+        {
+            contentRichTextBox.Document.Blocks.Clear();
+            if (!string.IsNullOrEmpty(viewModel.SelectedNote.FileLocation))
+            {
+                using (FileStream fileStream = new FileStream(viewModel.SelectedNote.FileLocation, FileMode.Open))
+                {
+                    TextRange range = new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd);
+                    range.Load(fileStream, DataFormats.Rtf);
+                    fileStream.Close();
+                }
+            }
         }
 
         private void contentRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -113,6 +133,21 @@ namespace EvernoteClone.View
                 LoginWindow loginWindow = new LoginWindow();
                 loginWindow.ShowDialog();
             }
+        }
+
+        private void SaveButtonClick(object sender, RoutedEventArgs e)
+        {
+            string rtfFile = System.IO.Path.Combine(Environment.CurrentDirectory, $"{viewModel.SelectedNote.Id}.rtf");
+            viewModel.SelectedNote.FileLocation = rtfFile;
+
+            using (FileStream fileStream = new FileStream(rtfFile, FileMode.Create))
+            {
+                TextRange range = new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd);
+                range.Save(fileStream, DataFormats.Rtf);
+                fileStream.Flush();
+                fileStream.Close();
+            }
+            viewModel.UpdateSelectedNote();
         }
     }
 }

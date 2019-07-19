@@ -36,6 +36,7 @@ namespace EvernoteClone.ViewModel
             set
             {
                 selectedNote = value; //TODO get notes
+                SelectedNoteChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -49,6 +50,7 @@ namespace EvernoteClone.ViewModel
         public BeginEditCommand BeginEditCommand { get; set; }
         public HasEditedCommand HasEditedCommand { get; set; }
 
+        public event EventHandler SelectedNoteChanged;
         public NotesVM()
         {
             NewNotebookCommand = new NewNotebookCommand(this);
@@ -130,6 +132,11 @@ namespace EvernoteClone.ViewModel
                 DatabaseHelper.Update(notebook);
             }
             IsEditing = false;
+        }
+
+        public void UpdateSelectedNote()
+        {
+            DatabaseHelper.Update(SelectedNote);
         }
     }
 }
