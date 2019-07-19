@@ -31,7 +31,7 @@ namespace EvernoteClone.View
         public NotesWindow()
         {
             InitializeComponent();
-            viewModel = new NotesVM();
+            viewModel = this.Resources["vm"] as NotesVM;
             container.DataContext = viewModel;
             viewModel.SelectedNoteChanged += Notes_SelectedNoteChanged;
             var fontFamilies = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
