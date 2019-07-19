@@ -8,27 +8,24 @@ using System.Windows.Input;
 
 namespace EvernoteClone.ViewModel.Commands
 {
-    public class LoginCommand : ICommand
+    public class HasEditedCommand : ICommand
     {
-        public LoginVM VM { get; set; }
+        public NotesVM vM { get; set; }
 
         public event EventHandler CanExecuteChanged;
-
-        public LoginCommand(LoginVM vm)
+        public HasEditedCommand(NotesVM vM)
         {
-            this.VM = vm;
+            this.vM = vM;
         }
-
         public bool CanExecute(object parameter)
         {
-            User user = parameter as User;
-
             return true;
         }
 
         public void Execute(object parameter)
         {
-            VM.Login();
+            Notebook notebook = (Notebook)parameter;
+            vM.HasRenamed(notebook);
         }
     }
 }

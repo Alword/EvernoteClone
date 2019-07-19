@@ -1,4 +1,5 @@
-﻿using EvernoteClone.Model;
+﻿using EvernoteClone.Abstraction;
+using EvernoteClone.Model;
 using EvernoteClone.ViewModel.Commands;
 using SQLite;
 using System;
@@ -6,8 +7,17 @@ using System.Collections.ObjectModel;
 
 namespace EvernoteClone.ViewModel
 {
-    public class NotesVM
+    public class NotesVM : PropertyChangedBase
     {
+        private bool isEditing;
+
+        public bool IsEditing
+        {
+            get { return isEditing; }
+            set { isEditing = value; OnPropertyChanged(); }
+        }
+
+
         private Notebook selectedNotebook;
         public Notebook SelectedNotebook
         {
@@ -36,14 +46,19 @@ namespace EvernoteClone.ViewModel
 
         public NewNoteCommand NewNoteCommand { get; set; }
         public ExitCommand ExitCommand { get; set; }
+        public BeginEditCommand BeginEditCommand { get; set; }
+        public HasEditedCommand HasEditedCommand { get; set; }
 
         public NotesVM()
         {
             NewNotebookCommand = new NewNotebookCommand(this);
             NewNoteCommand = new NewNoteCommand(this);
             ExitCommand = new ExitCommand();
+            BeginEditCommand = new BeginEditCommand(this);
+            HasEditedCommand = new HasEditedCommand(this);
             Notebooks = new ObservableCollection<Notebook>();
             Notes = new ObservableCollection<Note>();
+
             ReadNotebooks();
         }
 
@@ -65,7 +80,8 @@ namespace EvernoteClone.ViewModel
         {
             Notebook notebook = new Notebook()
             {
-                Name = "New notebook"
+                Name = "New notebook",
+                Id = int.Parse(App.userID)
             };
             DatabaseHelper.Insert(notebook);
             Notebooks.Add(notebook);
@@ -100,6 +116,20 @@ namespace EvernoteClone.ViewModel
                     Notes.Add(note);
                 }
             }
+        }
+
+        public void StartEdition()
+        {
+            IsEditing = true;
+        }
+
+        public void HasRenamed(Notebook notebook)
+        {
+            if (notebook != null)
+            {
+                DatabaseHelper.Update(notebook);
+            }
+            IsEditing = false;
         }
     }
 }

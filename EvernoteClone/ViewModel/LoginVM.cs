@@ -21,8 +21,11 @@ namespace EvernoteClone.ViewModel
         public RegisterCommand RegisterCommand { get; set; }
         public LoginCommand LoginCommand { get; set; }
 
+        public event EventHandler HasLoggedIn;
+
         public LoginVM()
         {
+            user = new User();
             RegisterCommand = new RegisterCommand(this);
             LoginCommand = new LoginCommand(this);
         }
@@ -36,7 +39,8 @@ namespace EvernoteClone.ViewModel
 
                 if (user.Password == User.Password)
                 {
-                    // TODO: Login
+                    App.userID = user.Id.ToString();
+                    HasLoggedIn?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -46,7 +50,7 @@ namespace EvernoteClone.ViewModel
             var result = DatabaseHelper.Insert(User);
             if (result)
             {
-                // TODO: establish server
+                App.userID = User.Id.ToString();
             }
         }
     }
